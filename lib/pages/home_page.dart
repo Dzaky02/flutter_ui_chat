@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ui_chat/widgets/category_selector.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -8,6 +10,13 @@ class HomePage extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: buildAppBar(context, size),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            CategorySelector(),
+          ],
+        ),
+      ),
     );
   }
 
@@ -17,21 +26,22 @@ class HomePage extends StatelessWidget {
       leading: IconButton(
         onPressed: () => buildSnackBar(context, "Menu Clicked", size),
         icon: Icon(Icons.menu),
-        iconSize: 30.0,
+        iconSize: 26.0,
         color: Colors.white,
       ),
       title: Text(
         "Chats",
-        style: TextStyle(
-          fontSize: 28.0,
-          fontWeight: FontWeight.bold,
+        style: GoogleFonts.poppins(
+          fontSize: 22,
+          fontWeight: FontWeight.w600,
+          letterSpacing: 1,
         ),
       ),
       actions: [
         IconButton(
           onPressed: () => buildSnackBar(context, "Search Clicked", size),
           icon: Icon(Icons.search),
-          iconSize: 30.0,
+          iconSize: 26.0,
           color: Colors.white,
         ),
       ],
