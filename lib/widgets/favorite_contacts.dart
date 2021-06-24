@@ -30,8 +30,7 @@ class FavoriteContactsHeader extends StatelessWidget {
           ),
           IconButton(
             onPressed: () {
-              buildSnackBar(
-                  context, 'More Contact Clicked', size);
+              buildSnackBar(context, 'More Contact Clicked', size);
             },
             icon: Icon(
               Icons.more_horiz,
@@ -42,7 +41,7 @@ class FavoriteContactsHeader extends StatelessWidget {
       ),
     );
   }
-  
+
   // Function
   void buildSnackBar(BuildContext context, String message, Size size) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -78,36 +77,78 @@ class FavoriteContactList extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         padding: EdgeInsets.only(bottom: 10),
         itemCount: favorites.length,
-        itemBuilder: (context, index) => Padding(
-          padding: EdgeInsets.only(
-            left: index == 0 ? 20 : 6,
-            right: index == favorites.length - 1 ? 20 : 6,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                height: size.width / 7,
-                width: size.width / 7,
-                margin: const EdgeInsets.only(bottom: 6),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    image: AssetImage(favorites[index].imageUrl),
-                    fit: BoxFit.cover,
-                  ),
+        itemBuilder: (context, index) => FavContactItem(
+          size: size,
+          index: index,
+        ),
+      ),
+    );
+  }
+}
+
+class FavContactItem extends StatelessWidget {
+  const FavContactItem({
+    required this.size,
+    required this.index,
+  });
+
+  final Size size;
+  final int index;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(
+        left: index == 0 ? 20 : 6,
+        right: index == favorites.length - 1 ? 20 : 6,
+      ),
+      child: InkWell(
+        onTap: () {
+          buildSnackBar(
+              context, '${favorites[index].name}\'s Contact Clicked', size);
+        },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              height: size.width / 7,
+              width: size.width / 7,
+              margin: const EdgeInsets.only(bottom: 6),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  image: AssetImage(favorites[index].imageUrl),
+                  fit: BoxFit.cover,
                 ),
               ),
-              Text(
-                favorites[index].name,
-                style: GoogleFonts.poppins(
-                    color: Colors.black.withOpacity(0.65),
-                    fontSize: 13,
-                    fontWeight: FontWeight.w400),
-              ),
-            ],
-          ),
+            ),
+            Text(
+              favorites[index].name,
+              style: GoogleFonts.poppins(
+                  color: Colors.black.withOpacity(0.65),
+                  fontSize: 13,
+                  fontWeight: FontWeight.w400),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Function
+  void buildSnackBar(BuildContext context, String message, Size size) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        duration: const Duration(milliseconds: 1000),
+        width: size.width * 0.7, // Width of the SnackBar.
+        padding: const EdgeInsets.symmetric(
+          horizontal: 20.0, // Inner padding for SnackBar content.
+        ),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
         ),
       ),
     );
