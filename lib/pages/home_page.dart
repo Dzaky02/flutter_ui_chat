@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ui_chat/models/message_model.dart';
 import 'package:flutter_ui_chat/widgets/category_selector.dart';
 import 'package:flutter_ui_chat/widgets/favorite_contacts.dart';
+import 'package:flutter_ui_chat/widgets/recent_chats.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomePage extends StatelessWidget {
@@ -28,16 +29,7 @@ class HomePage extends StatelessWidget {
                 children: [
                   FavoriteContactsHeader(size: size),
                   FavoriteContactList(size: size),
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(30),
-                        ),
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
+                  RecentChats(size: size),
                 ],
               ),
             ),

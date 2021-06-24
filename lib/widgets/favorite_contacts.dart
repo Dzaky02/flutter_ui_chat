@@ -126,9 +126,10 @@ class FavContactItem extends StatelessWidget {
             Text(
               favorites[index].name,
               style: GoogleFonts.poppins(
-                  color: Colors.black.withOpacity(0.65),
-                  fontSize: 13,
-                  fontWeight: FontWeight.w400),
+                color: Colors.black.withOpacity(0.65),
+                fontSize: 13,
+                fontWeight: FontWeight.w400,
+              ),
             ),
           ],
         ),
