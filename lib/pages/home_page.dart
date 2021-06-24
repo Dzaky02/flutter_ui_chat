@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ui_chat/models/message_model.dart';
 import 'package:flutter_ui_chat/widgets/category_selector.dart';
+import 'package:flutter_ui_chat/widgets/favorite_contacts.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomePage extends StatelessWidget {
@@ -10,12 +12,37 @@ class HomePage extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: buildAppBar(context, size),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            CategorySelector(),
-          ],
-        ),
+      backgroundColor: Theme.of(context).primaryColor,
+      body: Column(
+        children: [
+          CategorySelector(),
+          Expanded(
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(30),
+                ),
+                color: Theme.of(context).accentColor,
+              ),
+              child: Column(
+                children: [
+                  FavoriteContactsHeader(size: size),
+                  FavoriteContactList(size: size),
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(30),
+                        ),
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -33,7 +60,7 @@ class HomePage extends StatelessWidget {
         "Chats",
         style: GoogleFonts.poppins(
           fontSize: 22,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w500,
           letterSpacing: 1,
         ),
       ),
