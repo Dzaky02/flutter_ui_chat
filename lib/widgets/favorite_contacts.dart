@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ui_chat/models/message_model.dart';
+import 'package:flutter_ui_chat/pages/chat_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class FavoriteContactsHeader extends StatelessWidget {
@@ -103,10 +104,12 @@ class FavContactItem extends StatelessWidget {
         right: index == favorites.length - 1 ? 20 : 6,
       ),
       child: InkWell(
-        onTap: () {
-          buildSnackBar(
-              context, '${favorites[index].name}\'s Contact Clicked', size);
-        },
+        onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ChatPage(user: favorites[index]),
+        ),
+      ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
