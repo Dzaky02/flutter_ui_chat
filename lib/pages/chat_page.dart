@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ui_chat/models/message_model.dart';
 import 'package:flutter_ui_chat/models/user_model.dart';
@@ -13,86 +14,6 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
-      appBar: buildAppBar(context, size),
-      body: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(30),
-          ),
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(30),
-          ),
-          child: Column(
-            children: [
-              Expanded(
-                child: ListView.builder(
-                  padding: EdgeInsets.only(top: 15, bottom: size.height * 0.1),
-                  reverse: true,
-                  itemCount: messages.length,
-                  itemBuilder: (context, index) {
-                    final Message message = messages[index];
-                    bool isMe = message.sender.id == currentUser.id;
-                    return _buildMessage(message, isMe, size);
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  AppBar buildAppBar(BuildContext context, Size size) {
-    return AppBar(
-      elevation: 0,
-      title: Center(
-        child: Text(
-          widget.user.name,
-          style: GoogleFonts.poppins(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            letterSpacing: 1,
-          ),
-        ),
-      ),
-      actions: [
-        IconButton(
-          onPressed: () => buildSnackBar(context, "Menu Chat Clicked", size),
-          icon: Icon(Icons.more_horiz),
-          iconSize: 26.0,
-          color: Colors.white,
-        ),
-      ],
-    );
-  }
-
-  // Function
-  void buildSnackBar(BuildContext context, String message, Size size) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        duration: const Duration(milliseconds: 1000),
-        width: size.width * 0.7, // Width of the SnackBar.
-        padding: const EdgeInsets.symmetric(
-          horizontal: 20.0, // Inner padding for SnackBar content.
-        ),
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-      ),
-    );
-  }
-
   _buildMessage(Message message, bool isMe, Size size) {
     return Row(
       children: [
@@ -146,8 +67,165 @@ class _ChatPageState extends State<ChatPage> {
         ),
         Container(
           width: isMe ? 0 : size.width * 0.2,
+          alignment: Alignment.centerLeft,
+          child: IconButton(
+            onPressed: () =>
+                buildSnackBar(context, 'Liked Button Clicked', size),
+            icon: Icon(
+              message.isLiked ? Icons.favorite : Icons.favorite_border,
+            ),
+            color: message.isLiked
+                ? Theme.of(context).primaryColor
+                : Colors.black45,
+          ),
         )
       ],
+    );
+  }
+
+  _buildMessageComposer(Size size) {
+    String inputMessage = '';
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: Container(
+        height: size.height * 0.08,
+        margin: EdgeInsets.only(
+          left: 20,
+          right: 20,
+          bottom: 8,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+          color: Colors.amber.shade100,
+        ),
+        child: Row(
+          children: [
+            IconButton(
+              onPressed: () => buildSnackBar(context, 'Emoji Clicked', size),
+              icon: Icon(Icons.emoji_emotions),
+              iconSize: size.height * 0.05,
+              color: Colors.black45,
+            ),
+            Expanded(
+              child: TextField(
+                textCapitalization: TextCapitalization.sentences,
+                onChanged: (value) {
+                  inputMessage = value;
+                  setState(() {});
+                },
+                decoration: InputDecoration.collapsed(
+                  hintText: 'Send a message...',
+                ),
+              ),
+            ),
+            IconButton(
+              onPressed: () => buildSnackBar(
+                  context,
+                  (inputMessage.isNotEmpty && inputMessage.length > 0)
+                      ? '$inputMessage'
+                      : 'Type Something First',
+                  size),
+              icon: Icon(Icons.send),
+              iconSize: size.height * 0.04,
+              color: Colors.black45,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return Scaffold(
+      backgroundColor: Theme.of(context).primaryColor,
+      appBar: buildAppBar(context, size),
+      body: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(30),
+          ),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(30),
+          ),
+          child: GestureDetector(
+            onTap: () => FocusScope.of(context).unfocus(),
+            child: Stack(
+              children: [
+                Container(
+                  child: Expanded(
+                    child: ListView.builder(
+                      padding: EdgeInsets.only(
+                          top: 15, bottom: size.height * 0.08 + 8),
+                      reverse: true,
+                      itemCount: messages.length,
+                      itemBuilder: (context, index) {
+                        final Message message = messages[index];
+                        bool isMe = message.sender.id == currentUser.id;
+                        return _buildMessage(message, isMe, size);
+                      },
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    height: size.height * 0.05,
+                    color: Colors.white,
+                  ),
+                ),
+                _buildMessageComposer(size),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  AppBar buildAppBar(BuildContext context, Size size) {
+    return AppBar(
+      elevation: 0,
+      title: Center(
+        child: Text(
+          widget.user.name,
+          style: GoogleFonts.poppins(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+            letterSpacing: 1,
+          ),
+        ),
+      ),
+      actions: [
+        IconButton(
+          onPressed: () => buildSnackBar(context, "Menu Chat Clicked", size),
+          icon: Icon(Icons.more_horiz),
+          iconSize: 26.0,
+          color: Colors.white,
+        ),
+      ],
+    );
+  }
+
+  // Function
+  void buildSnackBar(BuildContext context, String message, Size size) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        duration: const Duration(milliseconds: 1000),
+        width: size.width * 0.7, // Width of the SnackBar.
+        padding: const EdgeInsets.symmetric(
+          horizontal: 20.0, // Inner padding for SnackBar content.
+        ),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+      ),
     );
   }
 }
