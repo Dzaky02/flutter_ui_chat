@@ -48,12 +48,14 @@ class HomePage extends StatelessWidget {
         iconSize: 26.0,
         color: Colors.white,
       ),
-      title: Text(
-        "Chats",
-        style: GoogleFonts.poppins(
-          fontSize: 22,
-          fontWeight: FontWeight.w500,
-          letterSpacing: 1,
+      title: Center(
+        child: Text(
+          "Chats",
+          style: GoogleFonts.poppins(
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+            letterSpacing: 1,
+          ),
         ),
       ),
       actions: [
