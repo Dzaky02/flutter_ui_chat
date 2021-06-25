@@ -31,8 +31,8 @@ class _ChatPageState extends State<ChatPage> {
             ),
             decoration: BoxDecoration(
               color: isMe
-                  ? Colors.amber.withOpacity(0.2)
-                  : Colors.red.withOpacity(0.18),
+                  ? Colors.amber.withOpacity(0.17)
+                  : Colors.red.withOpacity(0.14),
               borderRadius: isMe
                   ? BorderRadius.only(
                       topRight: Radius.circular(30),
@@ -96,7 +96,7 @@ class _ChatPageState extends State<ChatPage> {
         ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
-          color: Colors.amber.shade100,
+          color: Colors.yellow.shade100,
         ),
         child: Row(
           children: [
