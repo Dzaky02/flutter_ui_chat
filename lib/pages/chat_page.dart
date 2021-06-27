@@ -189,22 +189,41 @@ class _ChatPageState extends State<ChatPage> {
 
   AppBar buildAppBar(BuildContext context, Size size) {
     return AppBar(
+      toolbarHeight: size.height * 0.11,
       elevation: 0,
       title: Center(
-        child: Text(
-          widget.user.name,
-          style: GoogleFonts.poppins(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            letterSpacing: 1,
-          ),
+        child: Column(
+          children: [
+            Text(
+              widget.user.name,
+              style: GoogleFonts.poppins(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                letterSpacing: 1,
+              ),
+            ),
+            Text(
+              'Active 3min ago',
+              style: GoogleFonts.poppins(
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+                letterSpacing: 1,
+              ),
+            ),
+          ],
         ),
       ),
       actions: [
         IconButton(
-          onPressed: () => buildSnackBar(context, "Menu Chat Clicked", size),
-          icon: Icon(Icons.more_horiz),
-          iconSize: 26.0,
+          onPressed: () => buildSnackBar(context, "Voice Call Clicked", size),
+          icon: Icon(Icons.local_phone),
+          iconSize: size.height * 0.04,
+          color: Colors.white,
+        ),
+        IconButton(
+          onPressed: () => buildSnackBar(context, "Video Call Clicked", size),
+          icon: Icon(Icons.videocam),
+          iconSize: size.height * 0.04,
           color: Colors.white,
         ),
       ],
