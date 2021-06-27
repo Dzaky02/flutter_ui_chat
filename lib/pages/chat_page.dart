@@ -14,6 +14,72 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
+  Widget contentGenerator(Message message, bool isMe) {
+    switch (message.messageType) {
+      case ChatMessageType.text:
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              message.time,
+              style: GoogleFonts.poppins(
+                color: Colors.black.withOpacity(0.4),
+                fontSize: 11,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            SizedBox(height: 6),
+            Text(
+              message.text,
+              style: GoogleFonts.poppins(),
+            ),
+          ],
+        );
+      case ChatMessageType.audio:
+        return Padding(
+          padding: const EdgeInsets.all(10),
+          child: Row(
+            children: [
+              Icon(
+                Icons.play_arrow,
+                color: Colors.black.withOpacity(0.7),
+              ),
+              Expanded(
+                child: SliderTheme(
+                  data: SliderTheme.of(context).copyWith(
+                    trackHeight: 3.0,
+                    thumbShape: RoundSliderThumbShape(enabledThumbRadius: 7.0),
+                    overlayColor: Colors.black.withAlpha(32),
+                    overlayShape: RoundSliderOverlayShape(overlayRadius: 14.0),
+                  ),
+                  child: Slider(
+                    value: 10,
+                    min: 0,
+                    max: 100,
+                    onChanged: (double value) {},
+                    activeColor: Colors.black54,
+                    inactiveColor: Colors.black26,
+                  ),
+                ),
+              ),
+              Text(
+                '0.45',
+                style: GoogleFonts.poppins(
+                  color: Colors.black.withOpacity(0.7),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            ],
+          ),
+        );
+      case ChatMessageType.video:
+        return Container();
+      default:
+        return Container();
+    }
+  }
+
   _buildMessage(Message message, bool isMe, Size size) {
     return Row(
       children: [
@@ -25,10 +91,12 @@ class _ChatPageState extends State<ChatPage> {
               left: isMe ? size.width * 0.2 : 8,
               right: isMe ? 8 : 0,
             ),
-            padding: EdgeInsets.symmetric(
-              horizontal: 24,
-              vertical: 14,
-            ),
+            padding: (message.messageType == ChatMessageType.text)
+                ? EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 14,
+                  )
+                : EdgeInsets.all(0),
             decoration: BoxDecoration(
               color: isMe
                   ? Colors.amber.withOpacity(0.17)
@@ -45,24 +113,7 @@ class _ChatPageState extends State<ChatPage> {
                       bottomRight: Radius.circular(18),
                     ),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  message.time,
-                  style: GoogleFonts.poppins(
-                    color: Colors.black.withOpacity(0.4),
-                    fontSize: 11,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                SizedBox(height: 6),
-                Text(
-                  message.text,
-                  style: GoogleFonts.poppins(),
-                ),
-              ],
-            ),
+            child: contentGenerator(message, isMe),
           ),
         ),
         Container(
@@ -157,18 +208,16 @@ class _ChatPageState extends State<ChatPage> {
             child: Stack(
               children: [
                 Container(
-                  child: Expanded(
-                    child: ListView.builder(
-                      padding: EdgeInsets.only(
-                          top: 15, bottom: size.height * 0.08 + 8),
-                      reverse: true,
-                      itemCount: messages.length,
-                      itemBuilder: (context, index) {
-                        final Message message = messages[index];
-                        bool isMe = message.sender.id == currentUser.id;
-                        return _buildMessage(message, isMe, size);
-                      },
-                    ),
+                  child: ListView.builder(
+                    padding: EdgeInsets.only(
+                        top: 15, bottom: size.height * 0.08 + 8),
+                    reverse: true,
+                    itemCount: messages.length,
+                    itemBuilder: (context, index) {
+                      final Message message = messages[index];
+                      bool isMe = message.sender.id == currentUser.id;
+                      return _buildMessage(message, isMe, size);
+                    },
                   ),
                 ),
                 Align(
