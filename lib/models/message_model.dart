@@ -90,14 +90,14 @@ List<Message> chats = [
     time: '5:30 PM',
     text: 'Party is about to ROCK!',
     isLiked: false,
-    unread: true,
+    unread: false,
   ),
   Message(
     sender: olivia,
     time: '4:30 PM',
     text: 'LOL hahaha',
     isLiked: false,
-    unread: true,
+    unread: false,
   ),
   Message(
     sender: john,
@@ -163,7 +163,6 @@ List<Message> messages = [
     sender: james,
     time: 'now',
     text: 'C\'mon, let\'s hang out man.',
-    isLiked: true,
   ),
   Message(
     sender: currentUser,

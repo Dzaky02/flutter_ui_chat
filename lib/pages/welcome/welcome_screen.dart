@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ui_chat/constants.dart';
+import 'package:flutter_ui_chat/pages/home_page.dart';
 import 'package:flutter_ui_chat/pages/sign_in_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -38,10 +39,10 @@ class WelcomeScreen extends StatelessWidget {
             Spacer(flex: 2),
             FittedBox(
               child: TextButton(
-                onPressed: () => Navigator.push(
+                onPressed: () => Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => SignInPage(),
+                    builder: (context) => HomePage(),
                   ),
                 ),
                 child: Row(
