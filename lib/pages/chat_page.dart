@@ -74,7 +74,72 @@ class _ChatPageState extends State<ChatPage> {
           ),
         );
       case ChatMessageType.video:
-        return Container();
+        return ClipRRect(
+          borderRadius: isMe
+              ? BorderRadius.only(
+                  topRight: Radius.circular(30),
+                  topLeft: Radius.circular(18),
+                  bottomLeft: Radius.circular(18),
+                )
+              : BorderRadius.only(
+                  topLeft: Radius.circular(30),
+                  topRight: Radius.circular(18),
+                  bottomRight: Radius.circular(18),
+                ),
+          child: Stack(
+            children: [
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  Image.asset('assets/images/Video Place Here.png'),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.black87,
+                      ),
+                      child: IconButton(
+                        icon: Icon(Icons.play_arrow),
+                        color: Colors.white,
+                        onPressed: () {},
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Align(
+                alignment: isMe ? Alignment.topRight : Alignment.topLeft,
+                child: Container(
+                  padding: EdgeInsets.only(
+                    top: 10,
+                    bottom: 10,
+                    left: 16,
+                    right: 16,
+                  ),
+                  decoration: BoxDecoration(
+                    color: isMe ? Colors.amber.shade100 : Colors.red.shade100,
+                    borderRadius: isMe
+                        ? BorderRadius.only(
+                            bottomLeft: Radius.circular(30),
+                          )
+                        : BorderRadius.only(
+                            bottomRight: Radius.circular(30),
+                          ),
+                  ),
+                  child: Text(
+                    message.time,
+                    style: GoogleFonts.poppins(
+                      color: Colors.black.withOpacity(0.5),
+                      fontSize: 11,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
       default:
         return Container();
     }
