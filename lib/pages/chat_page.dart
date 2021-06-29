@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ui_chat/models/message_model.dart';
 import 'package:flutter_ui_chat/models/user_model.dart';
@@ -14,6 +13,7 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
+  
   Widget contentGenerator(Message message, bool isMe) {
     switch (message.messageType) {
       case ChatMessageType.text:
