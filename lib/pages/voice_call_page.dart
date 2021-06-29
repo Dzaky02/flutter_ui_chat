@@ -21,6 +21,7 @@ class VoiceCallPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            Spacer(flex: 1),
             Text(
               user.name,
               style: GoogleFonts.poppins(
@@ -38,7 +39,7 @@ class VoiceCallPage extends StatelessWidget {
             DialUserPic(
               imgUrl: user.imageUrl,
             ),
-            Spacer(),
+            Spacer(flex: 2),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -108,7 +109,20 @@ class VoiceCallPage extends StatelessWidget {
               ],
             ),
             VerticalSpacing(),
-            
+            Ink(
+              height: getProportionateScreenWidth(64),
+              width: getProportionateScreenWidth(64),
+              decoration: ShapeDecoration(
+                color: Color(0xFFFF1E46),
+                shape: CircleBorder(),
+              ),
+              child: IconButton(
+                icon: Icon(Icons.call_end),
+                color: Colors.white.withOpacity(0.8),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ),
+            Spacer(flex: 1),
           ],
         ),
       ),
