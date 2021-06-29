@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ui_chat/models/message_model.dart';
 import 'package:flutter_ui_chat/models/user_model.dart';
+import 'package:flutter_ui_chat/pages/voice_call_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ChatPage extends StatefulWidget {
@@ -13,7 +14,6 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  
   Widget contentGenerator(Message message, bool isMe) {
     switch (message.messageType) {
       case ChatMessageType.text:
@@ -329,7 +329,14 @@ class _ChatPageState extends State<ChatPage> {
       ),
       actions: [
         IconButton(
-          onPressed: () => buildSnackBar(context, "Voice Call Clicked", size),
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => VoiceCallPage(
+                user: widget.user,
+              ),
+            ),
+          ),
           icon: Icon(Icons.local_phone),
           iconSize: size.height * 0.04,
           color: Colors.white,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 const mPrimaryColor = Colors.red;
 const mSecondaryColor = Color(0xFFFEF9EB);
+const mBackgroundColor = Color(0xFF930026);
 // const mSecondaryColor = Color(0xFFFE9901);
 const mContentColorLightTheme = Color(0xFF1D1D35);
 const mContentColorDarkTheme = Color(0xFFF5FCF9);
